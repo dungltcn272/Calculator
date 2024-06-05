@@ -47,7 +47,7 @@ object HandleInput {
             mainString.contains(".") && mainString.substringAfterLast('.').toDoubleOrNull() != null && character == '.' -> false
             lastChar == '%' && !isOperator(character) -> false
             lastChar in listOf('x', '/') && character in listOf('x', '/', '+') -> false
-            lastChar in listOf('+', '-') && character in listOf('+', '-') -> false
+            lastChar in listOf('+', '-') && character in listOf('+', '-', 'x', '/') -> false
             else -> true
         }
     }
