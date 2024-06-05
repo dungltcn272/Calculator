@@ -1,5 +1,10 @@
+@file:Suppress("DEPRECATION")
+
 package com.dungltcn272.calculator.caculator.components
 
+import android.content.Context
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,9 +19,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -28,13 +33,17 @@ fun InputButton(
     @DrawableRes icon: Int? = null,
     color: Color = Color.White
 ) {
+    val content = LocalContext.current
     Box(
         modifier = modifier
             .aspectRatio(1f)
             .padding(8.dp)
             .background(color = color, shape = CircleShape)
             .clip(CircleShape)
-            .clickable(onClick = onClick)
+            .clickable{
+                onClick()
+                vibrateDevice(content)
+            }
     ) {
         if (icon != null) {
             Icon(
@@ -60,8 +69,13 @@ fun InputButton(
 
 }
 
-@Preview
-@Composable
-fun InputButtonPreview() {
-    InputButton(onClick = {}, text = "00")
+
+fun vibrateDevice(context: Context) {
+    val vibrator = context.getSystemService(Vibrator::class.java)
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        vibrator?.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE))
+    } else {
+        //deprecated in API 26
+        vibrator?.vibrate(50)
+    }
 }
