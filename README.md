@@ -8,7 +8,7 @@ App sử dụng:
 Logic app: 
  - có 2 biến: chainOfCalculations để lưu chuỗi phép tính và result để lưu kết quả
  - viewmodel khởi tạo, lưu trữ và xử lí chuỗi phép tính chuẩn logic "nhân chia trước cộng trừ sau" ví dụ chainOfCalculations = "9+5x2" => result = "19"
- - hàm tính toán và lọc ngoại lệ đặt tại class trong ultil package, các đầu vào phi logic hay dễ hây lỗi sẽ bị chặn không thể nhập liệu
+ - hàm tính toán và lọc ngoại lệ đặt tại class trong utils package, các đầu vào phi logic hay dễ hây lỗi sẽ bị chặn không thể nhập liệu
 
 Demo: 
 
