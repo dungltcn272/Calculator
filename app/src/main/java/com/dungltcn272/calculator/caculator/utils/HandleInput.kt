@@ -1,41 +1,55 @@
 package com.dungltcn272.calculator.caculator.utils
 
-import android.util.Log
 import java.util.LinkedList
 
 object HandleInput {
+//    fun isAllowedToAdd(mainString: String, character: Char): Boolean {
+//        if (mainString == "0" && character == '0') {
+//            return false
+//        }
+//
+//        if (mainString.isEmpty() && (character == 'x' || character == '/')) {
+//            return false
+//        }
+//
+//        if (mainString.isNotEmpty() && mainString.last() == '.' && character == '.') {
+//            return false
+//        }
+//
+//        if (mainString.isNotEmpty() && mainString.contains(".") && mainString.substring(mainString.lastIndexOf('.')).toDoubleOrNull() != null && character == '.') {
+//            return false
+//        }
+//
+//        if(mainString.isNotEmpty() && isOperator(mainString.last()) && character == '.'){
+//            return false
+//        }
+//
+//        if (mainString.isNotEmpty() && mainString.last() == '%' && !isOperator(character)) {
+//            return false
+//        }
+//
+//        if (mainString.isNotEmpty() && (mainString.last() == 'x' || mainString.last() == '/') && (character == 'x' || character == '/' || character == '+')) {
+//            return false
+//        }
+//        if (mainString.isNotEmpty() && (mainString.last() == '+' || mainString.last() == '-') && (character == '+' || character == '-')) {
+//            return false
+//        }
+//        return true
+//    }
+
     fun isAllowedToAdd(mainString: String, character: Char): Boolean {
-        if (mainString == "0" && character == '0') {
-            return false
+        val lastChar = mainString.lastOrNull()
+        return when {
+            mainString == "0" && character == '0' -> false
+            mainString.isEmpty() && character in listOf('x', '/') -> false
+            lastChar == '.' && character == '.' -> false
+            lastChar in listOf('x', '/', '+', '-') && character == '.' -> false
+            mainString.contains(".") && mainString.substringAfterLast('.').toDoubleOrNull() != null && character == '.' -> false
+            lastChar == '%' && !isOperator(character) -> false
+            lastChar in listOf('x', '/') && character in listOf('x', '/', '+') -> false
+            lastChar in listOf('+', '-') && character in listOf('+', '-') -> false
+            else -> true
         }
-
-        if (mainString.isEmpty() && (character == 'x' || character == '/')) {
-            return false
-        }
-
-        if (mainString.isNotEmpty() && mainString.last() == '.' && character == '.') {
-            return false
-        }
-
-        if (mainString.isNotEmpty() && mainString.contains(".") && mainString.substring(mainString.lastIndexOf('.')).toDoubleOrNull() != null && character == '.') {
-            return false
-        }
-
-        if(mainString.isNotEmpty() && isOperator(mainString.last()) && character == '.'){
-            return false
-        }
-
-        if (mainString.isNotEmpty() && mainString.last() == '%' && !isOperator(character)) {
-            return false
-        }
-
-        if (mainString.isNotEmpty() && (mainString.last() == 'x' || mainString.last() == '/') && (character == 'x' || character == '/' || character == '+')) {
-            return false
-        }
-        if (mainString.isNotEmpty() && (mainString.last() == '+' || mainString.last() == '-') && (character == '+' || character == '-')) {
-            return false
-        }
-        return true
     }
 
     fun calculate(chain: String): String {
@@ -61,8 +75,6 @@ object HandleInput {
         if (splitChain.size == 1) {
             return "@@"
         }
-
-        Log.d("TAG", "splitChain: $splitChain")
 
 
         while (splitChain.size > 1) {
@@ -97,6 +109,6 @@ object HandleInput {
     }
 
     private fun isOperator(mainChar: Char): Boolean {
-        return mainChar == '+' || mainChar == '-' || mainChar == 'x' || mainChar == '/'
+        return mainChar in listOf('+', '-', 'x', '/')
     }
 }
