@@ -29,7 +29,7 @@ object HandleInput {
             return false
         }
 
-        if (mainString.isNotEmpty() && (mainString.last() == 'x' || mainString.last() == '/') && (character == 'x' || character == '/')) {
+        if (mainString.isNotEmpty() && (mainString.last() == 'x' || mainString.last() == '/') && (character == 'x' || character == '/' || character == '+')) {
             return false
         }
         if (mainString.isNotEmpty() && (mainString.last() == '+' || mainString.last() == '-') && (character == '+' || character == '-')) {
