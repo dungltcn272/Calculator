@@ -10,3 +10,14 @@ Logic app:
  - viewmodel khởi tạo, lưu trữ và xử lí chuỗi phép tính chuẩn logic "nhân chia trước cộng trừ sau" ví dụ chainOfCalculations = "9+5x2" => result = "19"
  - hàm tính toán và lọc ngoại lệ đặt tại class trong ultil package, các đầu vào phi logic hay dễ hây lỗi sẽ bị chặn không thể nhập liệu
 
+Demo: 
+
+https://github.com/dungltcn272/Calculator/assets/136708965/6a31c308-cd4c-43f9-bdd8-0658820abeee
+
+
+
+
+https://github.com/dungltcn272/Calculator/assets/136708965/813d8043-a1b0-4ebe-9772-d72bbe578ce8
+
+
+
