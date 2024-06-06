@@ -4,10 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.dungltcn272.calculator.caculator.utils.HandleInput
 import com.dungltcn272.calculator.caculator.utils.PrefKey
 import com.dungltcn272.calculator.caculator.utils.PreferenceHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -30,58 +32,70 @@ class MainViewModel @Inject constructor(private val preferenceHelper: Preference
     }
 
     fun addCharacter(character: Char) {
-        if (equalState) {
-            chainOfCalculations = result
-            equalState = false
-            result = ""
-        }
-        if (HandleInput.isAllowedToAdd(chainOfCalculations, character)) {
-            if (character == '@') {
-                chainOfCalculations += "00"
-            } else chainOfCalculations += character
+        viewModelScope.launch {
+            if (equalState) {
+                chainOfCalculations = result
+                equalState = false
+                result = ""
+            }
+            if (HandleInput.isAllowedToAdd(chainOfCalculations, character)) {
+                if (character == '@') {
+                    chainOfCalculations += "00"
+                } else chainOfCalculations += character
+            }
         }
     }
 
     fun clear() {
-        chainOfCalculations = ""
-        result = ""
+        viewModelScope.launch {
+            chainOfCalculations = ""
+            result = ""
+        }
     }
 
 
     fun delete() {
-        if (chainOfCalculations.isNotEmpty()) {
-            chainOfCalculations = chainOfCalculations.dropLast(1)
+        viewModelScope.launch {
+            if (chainOfCalculations.isNotEmpty()) {
+                chainOfCalculations = chainOfCalculations.dropLast(1)
+            }
         }
     }
 
     fun saveChain() {
-        preferenceHelper.putString(PrefKey.KEY_CHAIN, chainOfCalculations)
+        viewModelScope.launch {
+            preferenceHelper.putString(PrefKey.KEY_CHAIN, chainOfCalculations)
+        }
     }
 
     fun calculate() {
-        if (chainOfCalculations.isEmpty() || chainOfCalculations.toDoubleOrNull() != null) {
-            return
-        }
-        val chain = chainOfCalculations.replace("%", "/100")
+        viewModelScope.launch {
+            if (chainOfCalculations.isEmpty() || chainOfCalculations.toDoubleOrNull() != null) {
+                return@launch
+            }
+            val chain = chainOfCalculations.replace("%", "/100")
 
-        if (chain.last() in listOf('+', '-', 'x', '/')) {
-            return
-        }
-        HandleInput.calculate(chain).also {
-            if (it != "@@") {
-                result = it
-            } else {
-                return
+            if (chain.last() in listOf('+', '-', 'x', '/')) {
+                return@launch
+            }
+            HandleInput.calculate(chain).also {
+                if (it != "@@") {
+                    result = it
+                } else {
+                    return@launch
+                }
             }
         }
     }
 
     fun equalClick() {
-        if (chainOfCalculations.isEmpty() || result.isEmpty()) {
-            return
-        }
-        if (result.isNotEmpty() && !equalState) {
-            equalState = true
+        viewModelScope.launch {
+            if (chainOfCalculations.isEmpty() || result.isEmpty()) {
+                return@launch
+            }
+            if (result.isNotEmpty() && !equalState) {
+                equalState = true
+            }
         }
     }
 
