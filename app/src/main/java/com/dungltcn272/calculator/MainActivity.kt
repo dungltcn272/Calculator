@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dungltcn272.calculator.caculator.components.InputButton
 import com.dungltcn272.calculator.caculator.viewmodel.MainViewModel
 import com.dungltcn272.calculator.ui.theme.CalculatorTheme
@@ -45,11 +46,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CalculatorTheme {
-                val viewModel by viewModels<MainViewModel>()
                 CalculatorScreen(
-                    viewModel = viewModel,
                     modifier = Modifier
                         .fillMaxSize()
+                        .systemBarsPadding()
                         .background(Background)
                 )
             }
@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun CalculatorScreen(modifier: Modifier = Modifier, viewModel: MainViewModel) {
+fun CalculatorScreen(modifier: Modifier = Modifier, viewModel: MainViewModel = hiltViewModel()) {
     LaunchedEffect(key1 = viewModel.chainOfCalculations) {
         viewModel.saveChain()
         viewModel.calculate()
