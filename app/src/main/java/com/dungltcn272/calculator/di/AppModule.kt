@@ -3,7 +3,7 @@ package com.dungltcn272.calculator.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.dungltcn272.calculator.caculator.utils.PrefKey
-import com.dungltcn272.calculator.caculator.helper.PreferenceHelper
+import com.dungltcn272.calculator.helper.PreferenceHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

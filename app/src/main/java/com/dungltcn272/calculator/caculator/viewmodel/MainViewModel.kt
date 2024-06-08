@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dungltcn272.calculator.caculator.utils.HandleInput
 import com.dungltcn272.calculator.caculator.utils.PrefKey
-import com.dungltcn272.calculator.caculator.helper.PreferenceHelper
+import com.dungltcn272.calculator.helper.PreferenceHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

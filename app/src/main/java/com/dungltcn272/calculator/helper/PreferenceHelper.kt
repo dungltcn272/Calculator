@@ -1,4 +1,4 @@
-package com.dungltcn272.calculator.caculator.helper
+package com.dungltcn272.calculator.helper
 
 import android.content.SharedPreferences
 import javax.inject.Inject
