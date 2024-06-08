@@ -1,6 +1,7 @@
 package com.dungltcn272.calculator.caculator
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,10 +40,18 @@ fun CalculatorScreen(modifier: Modifier = Modifier, viewModel: MainViewModel = h
         viewModel.calculate()
     }
 
-    val fontSizeTop =
-        animateFloatAsState(if (viewModel.equalState) 24f else 40f, label = "fontSizeTop")
-    val fontSizeBottom =
-        animateFloatAsState(if (viewModel.equalState) 40f else 24f, label = "fontSizeBottom")
+    val fontSizeTop by
+        animateFloatAsState(
+            targetValue = if (viewModel.equalState) 24f else 40f,
+            label = "fontSizeTop",
+            animationSpec = tween(durationMillis = 300)
+        )
+    val fontSizeBottom by
+        animateFloatAsState(
+            targetValue = if (viewModel.equalState) 40f else 24f,
+            label = "fontSizeBottom",
+            animationSpec = tween(durationMillis = 300)
+        )
 
     ConstraintLayout(modifier = modifier.fillMaxSize()) {
         val (grid, result) = createRefs()
@@ -133,7 +143,7 @@ fun CalculatorScreen(modifier: Modifier = Modifier, viewModel: MainViewModel = h
             .padding(horizontal = 20.dp, vertical = 15.dp), horizontalAlignment = Alignment.End) {
             Text(
                 text = viewModel.chainOfCalculations,
-                fontSize = fontSizeTop.value.sp,
+                fontSize = fontSizeTop.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 color = if (!viewModel.equalState) Color.Black else Faint
@@ -141,7 +151,7 @@ fun CalculatorScreen(modifier: Modifier = Modifier, viewModel: MainViewModel = h
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = viewModel.result,
-                fontSize = fontSizeBottom.value.sp,
+                fontSize = fontSizeBottom.sp,
                 color = if (viewModel.equalState) Color.Black else Faint
             )
         }
